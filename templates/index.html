@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Previously Asked</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="display-2">Similar Questions</h1>
+                <p class="lead">To a user query this system returns the Similar Questions</p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div>
+                <h2 class="display-5">Enter Your Question Here</h2>
+                <!-- <form action='http://localhost:5000/ask' method = 'GET'> -->
+                    <div class="form-group">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="question" placeholder="Try to ask a grammatically correct question">
+                            <small id="questionHelp" class="form-text text-muted">Enter Your Question and wait untill we fetch all the similar ones.</small>
+                        </div>
+                    <button id='search' class="btn btn-primary" onclick="ajaxFunction()">Submit</button>
+                <!-- </form> -->
+            </div>
+        </div>   
+
+        <div>
+            <h5>Answers</h5>
+            <div id="answers">
+
+            </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script language = "javascript" type = "text/javascript">
+           
+            function ajaxFunction(){
+                var ajaxRequest;
+
+                try{
+                    //Firefox and Opera
+                    ajaxRequest = new XMLHttpRequest();
+                }catch(e){
+                    //IE Explorer browser families
+                    try{
+                        ajaxRequest = new ActiveXObject();
+                    }catch(e){
+                        try{
+                            ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                        }catch(e){
+                            alert("Something went wrong. Unable to create ajax object!");
+                            return false;
+                        }
+                    }
+                }
+
+                // Create a function that will receive data
+                // sent from the server and will update
+                // div section in the same page.
+
+                ajaxRequest.onreadystatechange = function() {
+            
+                    if(ajaxRequest.readyState == 4) {
+                        var ajaxDisplay = document.getElementById('answers');
+                        ajaxDisplay.innerHTML = ajaxRequest.responseText;
+                    }
+                }
+                
+                //creation of the request and sending it
+                var question = document.getElementById('question').value;
+                var host = "http://localhost:5000/ask"
+                var queryString = host+'/'+question ;
+                ajaxRequest.open("GET", queryString, true);
+                ajaxRequest.send(null);
+            }
+        </script>
+    </body>
+</html>

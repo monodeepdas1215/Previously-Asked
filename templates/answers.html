@@ -1,0 +1,11 @@
+{% for tag in answers.tokens %}
+<span class="badge badge-info">{{ tag }}</span>
+{% endfor %}
+
+<ul class="list-group">
+    {% for answer in answers.answers %}
+    <li class="list-group-item">
+        {{ answer }}
+    </li>
+    {% endfor %}
+</ul>
